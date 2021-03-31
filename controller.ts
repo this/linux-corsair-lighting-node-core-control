@@ -26,8 +26,8 @@ const getDevices = async (): Promise<LightingNodeCore[]> => {
       rawDevice.getStringDescriptor(
         rawDevice.deviceDescriptor.iManufacturer,
         (error1, manufacturerBuffer) => {
-          if (error1) {
-            reject(error1);
+          if (error1 || !manufacturerBuffer) {
+            return reject(error1);
           }
           const manufacturer = manufacturerBuffer
             .toString()
@@ -36,8 +36,8 @@ const getDevices = async (): Promise<LightingNodeCore[]> => {
           rawDevice.getStringDescriptor(
             rawDevice.deviceDescriptor.iProduct,
             (error2, productBuffer) => {
-              if (error2) {
-                reject(error2);
+              if (error2 || !productBuffer) {
+                return reject(error2);
               }
               const product = productBuffer
                 .toString()
